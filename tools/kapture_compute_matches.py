@@ -23,6 +23,7 @@ from kapture.io.features import image_descriptors_from_file
 from kapture.io.features import matches_check_dir, image_matches_to_file
 from kapture.io.tar import TarCollection
 from kapture.utils.Collections import try_get_only_key_from_collection
+from ipdb import set_trace as bp
 
 logger = logging.getLogger('compute_matches')
 
