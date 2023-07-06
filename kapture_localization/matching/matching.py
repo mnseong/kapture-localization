@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 import torch
 import numpy as np
 from kapture_localization.utils.logging import getLogger
+from ipdb import set_trace as bp
 
 
 class MatchPairGenerator(ABC):
@@ -15,9 +16,10 @@ class MatchPairGenerator(ABC):
 class MatchPairNnTorch(MatchPairGenerator):
     def __init__(self, use_cuda=True):
         super().__init__()
-        self._device = torch.device("cuda:0"
-                                    if use_cuda and torch.cuda.is_available()
-                                    else "cpu")
+        #self._device = torch.device("cuda:0"
+        #                            if use_cuda and torch.cuda.is_available()
+        #                            else "cpu")
+        self._device = torch.device("cpu")        
 
     def match_descriptors(self, descriptors_1, descriptors_2):
         if descriptors_1.shape[0] == 0 or descriptors_2.shape[0] == 0:
@@ -46,5 +48,6 @@ class MatchPairNnTorch(MatchPairGenerator):
             [ids1[mask].type(torch.float), nearest_neighbor_idx_1vs2[mask].type(torch.float), scores[mask]]).t()
         # retrieve data back from GPU
         matches = matches_torch.data.cpu().numpy()
-        matches = matches.astype(np.float)
+        #matches = matches.astype(np.float)
+        matches = matches.astype(float)
         return matches
